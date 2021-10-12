@@ -10,16 +10,16 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
+app.use("/user", require("./routes/userRouter"));
+
 const URI = process.env.MONGO_URL;
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 mongoose.connect(
   URI,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
   },
   (err) => {
     if (err) throw err;
