@@ -11,6 +11,7 @@ app.use(cors());
 app.use(cookieParser());
 
 app.use("/user", require("./routes/userRouter"));
+app.use("/api", require("./routes/categoryRouter"));
 
 const URI = process.env.MONGO_URL;
 const PORT = process.env.PORT;
