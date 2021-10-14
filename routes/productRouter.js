@@ -14,4 +14,6 @@ router
   .put(auth, authSeller, productCTRL.updateProduct)
   .delete(auth, authSeller, productCTRL.deleteProduct);
 
+router.route("/review/:id").post(auth, productCTRL.reviewProduct);
+
 module.exports = router;

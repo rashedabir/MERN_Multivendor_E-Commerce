@@ -78,6 +78,33 @@ const productCTRL = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  reviewProduct: async (req, res) => {
+    try {
+      const { rating, comment, author } = req.body;
+      if (!rating || !comment || !author) {
+        return res.status(400).json({ msg: "Invalid Comment." });
+      }
+      if (rating < 1 || rating > 5) {
+        return res.status(400).json({ msg: "Rating Must Between 1 and 5." });
+      }
+      if (comment.length < 3) {
+        return res.status(400).json({ msg: "Comment Must be 3 Lengths Long." });
+      }
+      const product = await Product.findById(req.params.id);
+      if (!product) {
+        return res.status(400).json({ msg: "Product Not Found." });
+      }
+      product.comments.push({
+        rating,
+        comment,
+        author,
+      });
+      product.save();
+      res.json({ msg: "Successfully Commented." });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 
 module.exports = productCTRL;
