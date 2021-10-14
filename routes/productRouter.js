@@ -16,4 +16,8 @@ router
 
 router.route("/review/:id").post(auth, productCTRL.reviewProduct);
 
+router
+  .route("/seller_product")
+  .get(auth, authSeller, productCTRL.sellerProduct);
+
 module.exports = router;

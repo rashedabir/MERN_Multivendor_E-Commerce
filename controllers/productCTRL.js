@@ -105,6 +105,14 @@ const productCTRL = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  sellerProduct: async (req, res) => {
+    try {
+      const products = await Product.find({ user: req.user.id });
+      res.json({ products });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 
 module.exports = productCTRL;
