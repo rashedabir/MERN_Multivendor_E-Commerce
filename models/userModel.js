@@ -25,6 +25,12 @@ const userSchema = mongoose.Schema(
       type: Array,
       default: [],
     },
+    shopName: {
+      type: String,
+      trim: true,
+      unique: true,
+      default: "",
+    },
   },
   {
     timestamps: true,

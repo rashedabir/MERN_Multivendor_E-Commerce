@@ -1,65 +1,79 @@
-import React, { useState } from "react";
-import { styled, alpha } from "@mui/material/styles";
 import {
-  AppBar,
-  Badge,
-  IconButton,
-  InputBase,
-  Menu,
+  makeStyles,
+  alpha,
   MenuItem,
+  IconButton,
+  Badge,
+  Menu,
+  AppBar,
   Toolbar,
   Typography,
-} from "@mui/material";
-import MailIcon from "@mui/icons-material/Mail";
-import { Box } from "@mui/system";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import MoreIcon from "@mui/icons-material/MoreVert";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+  Button,
+} from "@material-ui/core";
+import React, { useState } from "react";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import MoreIcon from "@material-ui/icons/MoreVert";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 import logo from "../assets/logo.png";
+import { Link } from "react-router-dom";
+import StorefrontIcon from "@material-ui/icons/Storefront";
+import AcUnitIcon from "@material-ui/icons/AcUnit";
 
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+const useStyles = makeStyles((theme) => ({
+  grow: {
+    flexGrow: 1,
   },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
+  menuButton: {
+    marginRight: theme.spacing(2),
   },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
+  title: {
+    [theme.breakpoints.up("sm")]: {
+      display: "block",
+    },
+  },
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
     width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(3),
+      width: "auto",
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  inputRoot: {
+    color: "inherit",
+  },
+  sectionDesktop: {
+    display: "none",
     [theme.breakpoints.up("md")]: {
-      width: "20ch",
+      display: "flex",
+    },
+  },
+  sectionMobile: {
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
     },
   },
 }));
 
 function Header() {
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
@@ -87,21 +101,15 @@ function Header() {
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={menuId}
       keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
     </Menu>
   );
 
@@ -109,34 +117,22 @@ function Header() {
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={mobileMenuId}
       keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
+        <IconButton aria-label="show 4 new mails" color="inherit">
+          <StorefrontIcon />
         </IconButton>
-        <p>Messages</p>
+        <p>Shop</p>
       </MenuItem>
       <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
+        <IconButton aria-label="show 4 new mails" color="inherit">
+          <Badge badgeContent={4} color="secondary">
             <ShoppingCartIcon />
           </Badge>
         </IconButton>
@@ -144,7 +140,6 @@ function Header() {
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
-          size="large"
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
@@ -158,67 +153,37 @@ function Header() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar
-        position="static"
-        style={{
-          background: "linear-gradient(to right, #373b44, #4286f4)",
-        }}
-      >
+    <div className={classes.grow}>
+      <AppBar position="static" color="default" style={{ padding: "0 10px" }}>
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography
+            component={Link}
+            to="/"
+            className={classes.title}
             variant="h6"
             noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
           >
             <img
               src={logo}
               alt="logo"
               width="150px"
-              style={{ marginTop: "18px" }}
+              style={{ marginTop: "10px" }}
             />
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={1} color="error">
+          <div className={classes.grow} />
+          <div className={classes.sectionDesktop}>
+            <Button component={Link} to="/shop" size="medium">
+              shop
+            </Button>
+            <Button component={Link} to="/login" size="medium">
+              login <AcUnitIcon style={{ margin: "0 5px" }} /> registration
+            </Button>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={1} color="secondary">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
             <IconButton
-              size="large"
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
@@ -228,10 +193,9 @@ function Header() {
             >
               <AccountCircle />
             </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+          </div>
+          <div className={classes.sectionMobile}>
             <IconButton
-              size="large"
               aria-label="show more"
               aria-controls={mobileMenuId}
               aria-haspopup="true"
@@ -240,13 +204,12 @@ function Header() {
             >
               <MoreIcon />
             </IconButton>
-          </Box>
+          </div>
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-    </Box>
+    </div>
   );
 }
-
 export default Header;

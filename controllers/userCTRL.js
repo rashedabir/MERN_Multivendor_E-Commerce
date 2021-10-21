@@ -5,7 +5,8 @@ const jwt = require("jsonwebtoken");
 const userCTRL = {
   register: async (req, res) => {
     try {
-      const { fullName, userName, password, rePassword, role } = req.body;
+      const { fullName, userName, password, rePassword, role, shopName } =
+        req.body;
 
       if (!fullName || !userName || !password || !rePassword) {
         return res.status(400).json({ msg: "Invalid Creadentials." });
@@ -28,6 +29,7 @@ const userCTRL = {
         userName,
         password: hashPassword,
         role,
+        shopName,
       });
 
       await newUser.save();
