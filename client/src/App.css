@@ -3,7 +3,24 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(to right, #00c6ff, #0072ff);
+}
+
 a {
   text-decoration: none;
   color: black;
+}
+
+.App {
+  max-width: 1230px;
+  min-height: 100vh;
+  border: 1px solid #eee;
+  box-shadow: 0px 0px 35px #eee;
+  margin: 0 auto;
 }

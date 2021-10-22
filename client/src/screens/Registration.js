@@ -70,6 +70,7 @@ function Registration() {
         role: role,
         shopName: shopName,
       });
+      window.location.href = "/";
       toast.success("Register Success.");
     } catch (error) {
       toast.error(error.response.data.msg);

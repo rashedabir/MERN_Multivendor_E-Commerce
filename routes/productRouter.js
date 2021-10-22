@@ -5,7 +5,7 @@ const authSeller = require("../middleware/authSeller");
 const router = require("express").Router();
 
 router
-  .route("/product")
+  .route("/products")
   .get(productCTRL.getProducts)
   .post(auth, authSeller, productCTRL.createProduct);
 

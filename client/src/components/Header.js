@@ -10,7 +10,7 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -18,6 +18,11 @@ import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import AcUnitIcon from "@material-ui/icons/AcUnit";
+import { GlobalState } from "../GlobalState";
+import axios from "axios";
+import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import CategoryIcon from "@material-ui/icons/Category";
+import AddBoxIcon from "@material-ui/icons/AddBox";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -76,6 +81,12 @@ function Header() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const state = useContext(GlobalState);
+  const [isLogged, setIsLogged] = state.userAPI.isLogged;
+  const [isAdmin, setIsAdmin] = state.userAPI.isAdmin;
+  const [isSeller, setIsSeller] = state.userAPI.isSeller;
+
+  console.log(state);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -97,6 +108,16 @@ function Header() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const logOut = async () => {
+    await axios.get("/user/logout");
+    localStorage.clear();
+    setIsAdmin(false);
+    setIsSeller(false);
+    setIsLogged(false);
+    handleMenuClose();
+    window.location.href = "/";
+  };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -109,7 +130,7 @@ function Header() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={logOut}>Logout</MenuItem>
     </Menu>
   );
 
@@ -130,6 +151,22 @@ function Header() {
         </IconButton>
         <p>Shop</p>
       </MenuItem>
+      {isAdmin ? (
+        <MenuItem component={Link} to="/categories">
+          <IconButton aria-label="show 4 new mails" color="inherit">
+            <CategoryIcon />
+          </IconButton>
+          <p>Categories</p>
+        </MenuItem>
+      ) : null}
+      {isSeller ? (
+        <MenuItem component={Link} to="/create_product">
+          <IconButton aria-label="show 4 new mails" color="inherit">
+            <AddBoxIcon />
+          </IconButton>
+          <p>Create Product</p>
+        </MenuItem>
+      ) : null}
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
@@ -138,17 +175,26 @@ function Header() {
         </IconButton>
         <p>Cart</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+      {isLogged ? (
+        <MenuItem onClick={handleProfileMenuOpen}>
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+          <p>Profile</p>
+        </MenuItem>
+      ) : (
+        <MenuItem component={Link} to="/login">
+          <IconButton aria-label="show 4 new mails" color="inherit">
+            <VpnKeyIcon />
+          </IconButton>
+          <p>Login</p>
+        </MenuItem>
+      )}
     </Menu>
   );
 
@@ -172,27 +218,48 @@ function Header() {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Button component={Link} to="/shop" size="medium">
-              shop
-            </Button>
-            <Button component={Link} to="/login" size="medium">
-              login <AcUnitIcon style={{ margin: "0 5px" }} /> registration
-            </Button>
-            <IconButton aria-label="show 4 new mails" color="inherit">
+            {isSeller || isAdmin ? null : (
+              <Button component={Link} to="/shop" size="medium">
+                shop
+              </Button>
+            )}
+            {isAdmin ? (
+              <Button component={Link} to="/categories" size="medium">
+                categories
+              </Button>
+            ) : null}
+            {isSeller ? (
+              <Button component={Link} to="/create_product" size="medium">
+                create product
+              </Button>
+            ) : null}
+            {isLogged ? null : (
+              <Button component={Link} to="/login" size="medium">
+                login <AcUnitIcon style={{ margin: "0 5px" }} /> registration
+              </Button>
+            )}
+            <IconButton
+              aria-label="show 4 new mails"
+              color="inherit"
+              component={Link}
+              to={isLogged ? "/cart" : "/login"}
+            >
               <Badge badgeContent={1} color="secondary">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            {isLogged ? (
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            ) : null}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

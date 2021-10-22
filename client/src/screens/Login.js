@@ -58,6 +58,7 @@ function Login() {
         password: password,
       });
       toast.success("Wellcome.");
+      window.location.href = "/";
     } catch (error) {
       toast.error(error.response.data.msg);
     }
