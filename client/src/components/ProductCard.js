@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
+import Rating from "@material-ui/lab/Rating";
 
 const useStyles = makeStyles({
   root: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles({
     height: 320,
   },
   about: {
-    maxHeight: 50,
+    maxHeight: 55,
     overflow: "hidden",
   },
   title: {
@@ -32,10 +33,20 @@ const useStyles = makeStyles({
     width: "50%",
     padding: "5px 0",
   },
+  shopDetail: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: "10px",
+  },
 });
 
 function ProductCard({ product }) {
   const classes = useStyles();
+
+  const ratings = product.comments.map((rating) => rating.rating);
+  const total = ratings.reduce((acc, item) => (acc += item), 0).toFixed(2);
+  const rating = total / ratings.length;
+
   return (
     <Card className={classes.root}>
       <CardActionArea component={Link} to={`/product_detail/${product._id}`}>
@@ -53,6 +64,17 @@ function ProductCard({ product }) {
           >
             {product.title}
           </Typography>
+          <div className={classes.shopDetail}>
+            <Rating
+              name="half-rating-read"
+              value={rating}
+              precision={0.5}
+              readOnly
+            />
+            <Typography variant="body2" color="textSecondary" component="p">
+              ({product.comments.length} Review)
+            </Typography>
+          </div>
           <Typography
             className={classes.about}
             variant="body2"

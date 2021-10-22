@@ -135,8 +135,8 @@ const productCTRL = {
   },
   reviewProduct: async (req, res) => {
     try {
-      const { rating, comment, author } = req.body;
-      if (!rating || !comment || !author) {
+      const { rating, comment } = req.body;
+      if (!rating || !comment) {
         return res.status(400).json({ msg: "Invalid Comment." });
       }
       if (rating < 1 || rating > 5) {
@@ -149,10 +149,12 @@ const productCTRL = {
       if (!product) {
         return res.status(400).json({ msg: "Product Not Found." });
       }
+      const user = req.user.id;
+      const author = await User.findOne({ _id: user });
       product.comments.push({
         rating,
         comment,
-        author,
+        author: author.fullName,
       });
       product.save();
       res.json({ msg: "Successfully Commented." });
