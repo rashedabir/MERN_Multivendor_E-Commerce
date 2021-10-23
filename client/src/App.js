@@ -5,6 +5,7 @@ import Login from "./screens/Login";
 import Registration from "./screens/Registration";
 import { DataProvider } from "./GlobalState";
 import Products from "./screens/Products";
+import ProductDetail from "./screens/ProductDetail";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route exact path="/" component={Products} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Registration} />
+            <Route exact path="/product_detail/:id" component={ProductDetail} />
           </Switch>
         </div>
       </Router>

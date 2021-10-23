@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     maxWidth: 345,
   },
   media: {
-    height: 320,
+    height: 300,
   },
   about: {
     maxHeight: 55,
@@ -75,6 +75,14 @@ function ProductCard({ product }) {
               ({product.comments.length} Review)
             </Typography>
           </div>
+          <Typography
+            variant="body"
+            color="secondary"
+            component="h4"
+            style={{ marginBottom: "5px" }}
+          >
+            $ {product.price}
+          </Typography>
           <Typography
             className={classes.about}
             variant="body2"

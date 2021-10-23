@@ -139,9 +139,6 @@ const productCTRL = {
       if (!rating || !comment) {
         return res.status(400).json({ msg: "Invalid Comment." });
       }
-      if (rating < 1 || rating > 5) {
-        return res.status(400).json({ msg: "Rating Must Between 1 and 5." });
-      }
       if (comment.length < 3) {
         return res.status(400).json({ msg: "Comment Must be 3 Lengths Long." });
       }

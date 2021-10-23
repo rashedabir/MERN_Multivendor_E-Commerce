@@ -70,13 +70,13 @@ function Filters() {
         </Grid>
         <Grid item xl={8} md={8} xs={12} className={classes.paper}>
           <TextField
-            label="Search Product"
             margin="normal"
             variant="outlined"
             className={classes.formControl}
             style={{ marginTop: "0px" }}
             type="text"
             value={search}
+            placeholder="Search Product"
             onChange={(e) => setSearch(e.target.value.toLowerCase())}
           />
         </Grid>
