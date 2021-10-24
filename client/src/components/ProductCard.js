@@ -14,7 +14,7 @@ import Rating from "@material-ui/lab/Rating";
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    width: 345,
   },
   media: {
     height: 300,

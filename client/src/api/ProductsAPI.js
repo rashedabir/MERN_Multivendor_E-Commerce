@@ -16,7 +16,7 @@ function ProductsAPI() {
       setLoading(true);
       const res = await axios.get(
         `/api/products?limit=${
-          page * 6
+          page * 8
         }&${category}&${sort}&title[regex]=${search}`
       );
       setProducts(res.data.products);

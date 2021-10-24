@@ -167,6 +167,26 @@ const productCTRL = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  getShop: async (req, res) => {
+    try {
+      const shops = await User.find({ role: "seller" }).select("-password");
+      res.json({ status: "success", result: shops.length, shops: shops });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  getShopDetails: async (req, res) => {
+    try {
+      const products = await Product.find({ user: req.params.id });
+      res.json({
+        status: "success",
+        result: products.length,
+        products: products,
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 
 module.exports = productCTRL;

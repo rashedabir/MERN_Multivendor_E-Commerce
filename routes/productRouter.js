@@ -9,6 +9,10 @@ router
   .get(productCTRL.getProducts)
   .post(auth, authSeller, productCTRL.createProduct);
 
+router.route("/shops").get(productCTRL.getShop);
+
+router.route("/shops/:id").get(productCTRL.getShopDetails);
+
 router
   .route("/product/:id")
   .put(auth, authSeller, productCTRL.updateProduct)

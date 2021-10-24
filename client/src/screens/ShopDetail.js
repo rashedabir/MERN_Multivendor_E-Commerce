@@ -1,14 +1,14 @@
-import React, { useContext } from "react";
 import { Container, Grid, Grow, makeStyles } from "@material-ui/core";
-import Filters from "../components/Filters";
-import { GlobalState } from "../GlobalState";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import ProductCard from "../components/ProductCard";
 import Loading from "./Loading";
-import LoadMore from "../components/LoadMore";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    margin: "40px auto",
   },
   paper: {
     padding: "0px 10px",
@@ -16,16 +16,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Products() {
+function ShopDetail() {
   const classes = useStyles();
-  const state = useContext(GlobalState);
-  const [products] = state.productsAPI.products;
-  const [loading] = state.productsAPI.loading;
+  const { id } = useParams();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      if (id) {
+        setLoading(true);
+        const res = await axios.get(`/api/shops/${id}`);
+        setProducts(res.data.products);
+        setLoading(false);
+      }
+    };
+    getProducts();
+  }, [id]);
 
   return (
     <div className={classes.root}>
       <Container maxWidth="lg">
-        <Filters />
         <div className={classes.paper}>
           <Grow in>
             <Grid container spacing={3} alignContent="stretch">
@@ -46,10 +57,9 @@ function Products() {
           </Grow>
           {products.length === 0 && <Loading loading={loading} />}
         </div>
-        <LoadMore />
       </Container>
     </div>
   );
 }
 
-export default Products;
+export default ShopDetail;

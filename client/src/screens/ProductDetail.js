@@ -141,7 +141,12 @@ function ProductDetail() {
               >
                 {details.title}
               </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
+              <Typography
+                style={{ textTransform: "uppercase" }}
+                variant="body2"
+                color="textSecondary"
+                component="p"
+              >
                 #{details.product_id}
               </Typography>
             </div>
@@ -312,12 +317,12 @@ function ProductDetail() {
                           component="p"
                           style={{ marginLeft: "45px" }}
                         >
-                          {new Date(rating.createdAt).toLocaleString()}
+                          {new Date(rating.createdAt).toDateString()}
                         </Typography>
                       </Typography>
                       <Typography
                         variant="body2"
-                        color="textSecondary"
+                        color="textPrimary"
                         component="p"
                         style={{ marginLeft: "47px", marginTop: "10px" }}
                       >
