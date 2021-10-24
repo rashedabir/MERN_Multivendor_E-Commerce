@@ -68,12 +68,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ProductDetail() {
+function SellerProductDetails() {
   const classes = useStyles();
   const state = useContext(GlobalState);
   const [token] = state.token;
-  const addCart = state.userAPI.addCart;
-  const [products] = state.productsAPI.products;
+  const [products] = state.sellerProducts.sellerProducts;
   const [callback, setCallback] = state.productsAPI.callback;
   const [isLogged] = state.userAPI.isLogged;
   const { id } = useParams();
@@ -181,15 +180,7 @@ function ProductDetail() {
             >
               {details.description}
             </Typography>
-            <Button
-              variant="contained"
-              className={classes.customBtn}
-              onClick={() => {
-                addCart(details);
-              }}
-              component={Link}
-              to={isLogged ? "/cart" : "/login"}
-            >
+            <Button variant="contained" className={classes.customBtn}>
               add to cart
             </Button>
           </Grid>
@@ -354,4 +345,4 @@ function ProductDetail() {
   );
 }
 
-export default ProductDetail;
+export default SellerProductDetails;

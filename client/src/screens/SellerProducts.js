@@ -121,7 +121,7 @@ function SellerProducts() {
                   <StyledTableCell
                     align="left"
                     component={Link}
-                    to={`/product_detail/${product._id}`}
+                    to={`/seller_product_detail/${product._id}`}
                   >
                     {product.title}
                   </StyledTableCell>

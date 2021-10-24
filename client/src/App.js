@@ -10,6 +10,9 @@ import Shops from "./screens/Shops";
 import ShopDetail from "./screens/ShopDetail";
 import CreateProduct from "./screens/CreateProduct";
 import SellerProducts from "./screens/SellerProducts";
+import Cart from "./screens/Cart";
+import EditProduct from "./screens/EditProduct";
+import SellerProductDetails from "./screens/SellerProductDetails";
 
 function App() {
   return (
@@ -20,12 +23,18 @@ function App() {
           <Switch>
             <Route exact path="/" component={Products} />
             <Route exact path="/shop" component={Shops} />
+            <Route exact path="/cart" component={Cart} />
             <Route exact path="/seller_product" component={SellerProducts} />
             <Route exact path="/create_product" component={CreateProduct} />
-            <Route exact path="/edit_product/:id" component={CreateProduct} />
+            <Route exact path="/edit_product/:id" component={EditProduct} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Registration} />
             <Route exact path="/product_detail/:id" component={ProductDetail} />
+            <Route
+              exact
+              path="/seller_product_detail/:id"
+              component={SellerProductDetails}
+            />
             <Route exact path="/shop_detail/:id" component={ShopDetail} />
           </Switch>
         </div>

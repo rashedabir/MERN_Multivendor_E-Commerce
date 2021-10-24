@@ -86,6 +86,7 @@ function Header() {
   const [isLogged, setIsLogged] = state.userAPI.isLogged;
   const [isAdmin, setIsAdmin] = state.userAPI.isAdmin;
   const [isSeller, setIsSeller] = state.userAPI.isSeller;
+  const [cart] = state.userAPI.cart;
 
   console.log(state);
 
@@ -178,7 +179,7 @@ function Header() {
       ) : null}
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
+          <Badge badgeContent={cart.length} color="secondary">
             <ShoppingCartIcon />
           </Badge>
         </IconButton>
@@ -258,7 +259,7 @@ function Header() {
               component={Link}
               to={isLogged ? "/cart" : "/login"}
             >
-              <Badge badgeContent={1} color="secondary">
+              <Badge badgeContent={cart.length} color="secondary">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>

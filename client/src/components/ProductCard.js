@@ -8,9 +8,10 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Rating from "@material-ui/lab/Rating";
+import { GlobalState } from "../GlobalState";
 
 const useStyles = makeStyles({
   root: {
@@ -42,6 +43,8 @@ const useStyles = makeStyles({
 
 function ProductCard({ product }) {
   const classes = useStyles();
+  const state = useContext(GlobalState);
+  const addCart = state.userAPI.addCart;
 
   const ratings = product.comments.map((rating) => rating.rating);
   const total = ratings.reduce((acc, item) => (acc += item), 0).toFixed(2);
@@ -94,7 +97,13 @@ function ProductCard({ product }) {
         </CardContent>
       </CardActionArea>
       <CardActions className={classes.buttonGroup}>
-        <Button variant="contained" className={classes.button}>
+        <Button
+          variant="contained"
+          className={classes.button}
+          onClick={() => {
+            addCart(product);
+          }}
+        >
           Buy
         </Button>
         <Button
