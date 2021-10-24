@@ -9,6 +9,7 @@ import ProductDetail from "./screens/ProductDetail";
 import Shops from "./screens/Shops";
 import ShopDetail from "./screens/ShopDetail";
 import CreateProduct from "./screens/CreateProduct";
+import SellerProducts from "./screens/SellerProducts";
 
 function App() {
   return (
@@ -19,7 +20,9 @@ function App() {
           <Switch>
             <Route exact path="/" component={Products} />
             <Route exact path="/shop" component={Shops} />
+            <Route exact path="/seller_product" component={SellerProducts} />
             <Route exact path="/create_product" component={CreateProduct} />
+            <Route exact path="/edit_product/:id" component={CreateProduct} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Registration} />
             <Route exact path="/product_detail/:id" component={ProductDetail} />

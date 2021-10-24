@@ -162,7 +162,11 @@ const productCTRL = {
   sellerProduct: async (req, res) => {
     try {
       const products = await Product.find({ user: req.user.id });
-      res.json({ products });
+      res.json({
+        status: "success",
+        result: products.length,
+        sellerProducts: products,
+      });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

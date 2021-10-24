@@ -23,6 +23,7 @@ import axios from "axios";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import CategoryIcon from "@material-ui/icons/Category";
 import AddBoxIcon from "@material-ui/icons/AddBox";
+import ListAltIcon from "@material-ui/icons/ListAlt";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -145,7 +146,7 @@ function Header() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      <MenuItem component={Link} to="/shop">
         <IconButton aria-label="show 4 new mails" color="inherit">
           <StorefrontIcon />
         </IconButton>
@@ -165,6 +166,14 @@ function Header() {
             <AddBoxIcon />
           </IconButton>
           <p>Create Product</p>
+        </MenuItem>
+      ) : null}
+      {isSeller ? (
+        <MenuItem component={Link} to="/seller_product">
+          <IconButton aria-label="show 4 new mails" color="inherit">
+            <ListAltIcon />
+          </IconButton>
+          <p>Products</p>
         </MenuItem>
       ) : null}
       <MenuItem>
@@ -231,6 +240,11 @@ function Header() {
             {isSeller ? (
               <Button component={Link} to="/create_product" size="medium">
                 create product
+              </Button>
+            ) : null}
+            {isSeller ? (
+              <Button component={Link} to="/seller_product" size="medium">
+                products
               </Button>
             ) : null}
             {isLogged ? null : (

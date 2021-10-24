@@ -11,10 +11,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { GlobalState } from "../GlobalState";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,17 +51,46 @@ function CreateProduct() {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [callback, setCallback] = state.productsAPI.callback;
+  const [sellerCallback, setSellerCallback] =
+    state.sellerProducts.sellerCallback;
+  const [products] = state.productsAPI.products;
   const [onEdit, setOnEdit] = useState(false);
   const [_id, setId] = useState("");
+  const params = useParams();
+
+  useEffect(() => {
+    if (params.id) {
+      products.forEach((product) => {
+        if (product._id === params.id) {
+          setOnEdit(true);
+          setId(product._id);
+          setProductId(product.product_id);
+          setTitle(product.title);
+          setPrice(product.price);
+          setDescription(product.description);
+          setImage(product.images);
+          setCategory(product.category);
+        }
+      });
+    } else {
+      setOnEdit(false);
+      setId("");
+      setProductId("");
+      setTitle("");
+      setPrice();
+      setDescription("");
+      setImage(false);
+      setCategory("");
+    }
+  }, [params.id, products]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (onEdit) {
         await axios.put(
-          `/api/products/${_id}`,
+          `/api/product/${_id}`,
           {
-            product_id: productId,
             title: title,
             price: price,
             description: description,
@@ -70,7 +99,7 @@ function CreateProduct() {
           },
           { headers: { Authorization: token } }
         );
-        toast.info("Product Updated");
+        toast.info("Product Updated.");
       } else {
         await axios.post(
           "/api/products",
@@ -86,8 +115,9 @@ function CreateProduct() {
         );
         toast.success("Product Created.");
       }
+      setSellerCallback(!sellerCallback);
       setCallback(!callback);
-      history.push("/");
+      history.push("/seller_product");
     } catch (error) {
       toast.error(error.response.data.msg);
     }
@@ -168,7 +198,7 @@ function CreateProduct() {
                 variant="h5"
                 component="h2"
               >
-                create product
+                {onEdit ? "update product" : "create product"}
               </Typography>
               <form style={{ padding: "15px 0" }} onSubmit={handleSubmit}>
                 <TextField
@@ -180,6 +210,7 @@ function CreateProduct() {
                   onChange={(e) => {
                     setProductId(e.target.value);
                   }}
+                  disabled={onEdit ? true : false}
                 />
                 <TextField
                   id="outlined-basic"
@@ -244,7 +275,7 @@ function CreateProduct() {
                   }}
                 />
                 <Button type="submit" variant="contained" color="primary">
-                  Save
+                  {onEdit ? "update" : "save"}
                 </Button>
               </form>
             </Paper>
