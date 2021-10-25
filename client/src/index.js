@@ -6,11 +6,14 @@ import reportWebVitals from "./reportWebVitals";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-loading-skeleton/dist/skeleton.css";
+import { DataProvider } from "./GlobalState";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
-    <ToastContainer />
+    <DataProvider>
+      <App />
+      <ToastContainer />
+    </DataProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

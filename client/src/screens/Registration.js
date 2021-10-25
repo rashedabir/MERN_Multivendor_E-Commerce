@@ -62,7 +62,7 @@ function Registration() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/user/register", {
+      await axios.post("https://shop-clue.herokuapp.com/user/register", {
         fullName: fullName,
         userName: userName,
         password: password,

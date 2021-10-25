@@ -89,7 +89,7 @@ function CreateProduct() {
     try {
       if (onEdit) {
         await axios.put(
-          `/api/product/${_id}`,
+          `https://shop-clue.herokuapp.com/api/product/${_id}`,
           {
             title: title,
             price: price,
@@ -102,7 +102,7 @@ function CreateProduct() {
         toast.info("Product Updated.");
       } else {
         await axios.post(
-          "/api/products",
+          "https://shop-clue.herokuapp.com/api/products",
           {
             product_id: productId,
             title: title,
@@ -134,12 +134,16 @@ function CreateProduct() {
       let formData = new FormData();
       formData.append("file", file);
       setLoading(true);
-      const res = await axios.post("/api/upload", formData, {
-        headers: {
-          "content-type": "multipart/form-data",
-          Authorization: token,
-        },
-      });
+      const res = await axios.post(
+        "https://shop-clue.herokuapp.com/api/upload",
+        formData,
+        {
+          headers: {
+            "content-type": "multipart/form-data",
+            Authorization: token,
+          },
+        }
+      );
       setLoading(false);
       setImage(res.data);
     } catch (error) {
@@ -151,7 +155,7 @@ function CreateProduct() {
     try {
       setLoading(true);
       await axios.post(
-        "/api/destroy",
+        "https://shop-clue.herokuapp.com/api/destroy",
         { public_id: image.public_id },
         {
           headers: { Authorization: token },

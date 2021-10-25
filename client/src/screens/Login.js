@@ -53,7 +53,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/user/login", {
+      await axios.post("https://shop-clue.herokuapp.com/user/login", {
         userName: userName,
         password: password,
       });

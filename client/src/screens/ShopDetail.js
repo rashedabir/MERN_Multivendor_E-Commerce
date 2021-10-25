@@ -26,7 +26,9 @@ function ShopDetail() {
     const getProducts = async () => {
       if (id) {
         setLoading(true);
-        const res = await axios.get(`/api/shops/${id}`);
+        const res = await axios.get(
+          `https://shop-clue.herokuapp.com/api/shops/${id}`
+        );
         setProducts(res.data.products);
         setLoading(false);
       }

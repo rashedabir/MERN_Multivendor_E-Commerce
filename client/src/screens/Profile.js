@@ -76,12 +76,16 @@ function Profile() {
       let formData = new FormData();
       formData.append("file", file);
       setLoading(true);
-      const res = await axios.post("/api/upload", formData, {
-        headers: {
-          "content-type": "multipart/form-data",
-          Authorization: token,
-        },
-      });
+      const res = await axios.post(
+        "https://shop-clue.herokuapp.com/api/upload",
+        formData,
+        {
+          headers: {
+            "content-type": "multipart/form-data",
+            Authorization: token,
+          },
+        }
+      );
       setLoading(false);
       setImage(res.data);
     } catch (error) {
@@ -93,7 +97,7 @@ function Profile() {
     try {
       setLoading(true);
       await axios.post(
-        "/api/destroy",
+        "https://shop-clue.herokuapp.com/api/destroy",
         { public_id: image.public_id },
         {
           headers: { Authorization: token },
@@ -110,7 +114,7 @@ function Profile() {
     e.preventDefault();
     try {
       await axios.put(
-        `/user/user_info/${id}`,
+        `https://shop-clue.herokuapp.com/user/user_info/${id}`,
         {
           fullName: fullName,
           password: password,

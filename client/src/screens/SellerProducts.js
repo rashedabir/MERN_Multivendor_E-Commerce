@@ -68,7 +68,7 @@ function SellerProducts() {
       if (window.confirm("Want to delete this product?")) {
         setLoading(true);
         const deleteImg = axios.post(
-          "/api/destroy",
+          "https://shop-clue.herokuapp.com/api/destroy",
           { public_id },
           {
             headers: { Authorization: token },

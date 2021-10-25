@@ -15,7 +15,7 @@ function ProductsAPI() {
     const getProducts = async () => {
       setLoading(true);
       const res = await axios.get(
-        `/api/products?limit=${
+        `https://shop-clue.herokuapp.com/api/products?limit=${
           page * 8
         }&${category}&${sort}&title[regex]=${search}`
       );

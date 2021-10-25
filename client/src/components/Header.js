@@ -89,8 +89,6 @@ function Header() {
   const [isSeller, setIsSeller] = state.userAPI.isSeller;
   const [cart] = state.userAPI.cart;
 
-  console.log(state);
-
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -112,7 +110,7 @@ function Header() {
   };
 
   const logOut = async () => {
-    await axios.get("/user/logout");
+    await axios.get("https://shop-clue.herokuapp.com/user/logout");
     localStorage.clear();
     setIsAdmin(false);
     setIsSeller(false);
