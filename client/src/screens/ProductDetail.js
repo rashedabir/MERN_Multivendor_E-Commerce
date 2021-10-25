@@ -164,6 +164,17 @@ function ProductDetail() {
             </div>
             <Typography
               gutterBottom
+              variant="body"
+              component="p"
+              style={{ marginBottom: "20px" }}
+            >
+              SOLD:{" "}
+              <span style={{ color: "#f50083", fontWeight: "bold" }}>
+                {details.sold}
+              </span>
+            </Typography>
+            <Typography
+              gutterBottom
               variant="h6"
               component="h5"
               style={{ marginBottom: "20px" }}
@@ -295,7 +306,7 @@ function ProductDetail() {
             variant="h5"
             component="h1"
           >
-            recent posts
+            {ratings.length > 0 ? "recent posts" : null}
           </Typography>
           <Grid container spacing={3}>
             <Grid item xs={12}>

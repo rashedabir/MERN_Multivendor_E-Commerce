@@ -13,6 +13,8 @@ import SellerProducts from "./screens/SellerProducts";
 import Cart from "./screens/Cart";
 import EditProduct from "./screens/EditProduct";
 import SellerProductDetails from "./screens/SellerProductDetails";
+import Order from "./screens/Order";
+import History from "./screens/History";
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
             <Route exact path="/create_product" component={CreateProduct} />
             <Route exact path="/edit_product/:id" component={EditProduct} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/order" component={Order} />
+            <Route exact path="/history" component={History} />
             <Route exact path="/register" component={Registration} />
             <Route exact path="/product_detail/:id" component={ProductDetail} />
             <Route

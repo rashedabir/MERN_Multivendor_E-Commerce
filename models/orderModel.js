@@ -33,10 +33,8 @@ const orderSchema = new mongoose.Schema(
       require: true,
       trim: true,
     },
-    price: {
-      type: Number,
-      require: true,
-      trim: true,
+    bkash: {
+      type: String,
     },
     trxid: {
       type: String,

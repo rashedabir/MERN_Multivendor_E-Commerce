@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import CartCard from "../components/CartCard";
 import { GlobalState } from "../GlobalState";
@@ -172,7 +173,9 @@ function Cart() {
                   ${total}
                 </Typography>
               </div>
-              <Button className={classes.button}>proceed to pay</Button>
+              <Button component={Link} to="/order" className={classes.button}>
+                proceed to pay
+              </Button>
             </Card>
           </Grid>
         </Grid>

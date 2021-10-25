@@ -1,5 +1,6 @@
 const Order = require("../models/orderModel");
 const User = require("../models/userModel");
+const Product = require("../models/productModel");
 
 const orderCTRL = {
   getOrders: async (req, res) => {
@@ -18,9 +19,9 @@ const orderCTRL = {
     try {
       const user = await User.findById(req.user.id).select("fullName userName");
       if (!user) return res.status(400).json({ msg: "User does not exist." });
-      const { cart, address, phone, district, price, trxid } = req.body;
-      if (!address || !phone || !district || !price) {
-        return res.status(400).json({ msg: "Invalid Credendial" });
+      const { cart, address, phone, district, bkash, trxid } = req.body;
+      if (!address || !phone || !district) {
+        return res.status(400).json({ msg: "Invalid Credendials." });
       }
       const { _id, fullName, userName } = user;
       const newOrder = new Order({
@@ -31,12 +32,12 @@ const orderCTRL = {
         district,
         address,
         phone,
-        price,
+        bkash,
         trxid,
       });
-      //   cart.filter((item) => {
-      //     return sold(item._id, item.quantity, item.sold);
-      //   });
+      cart.filter((item) => {
+        return sold(item._id, item.quantity, item.sold);
+      });
 
       await newOrder.save();
       res.json({ msg: "Order Succes!" });
@@ -44,6 +45,15 @@ const orderCTRL = {
       return res.status(500).json({ msg: err.message });
     }
   },
+};
+
+const sold = async (id, quantity, oldSold) => {
+  await Product.findOneAndUpdate(
+    { _id: id },
+    {
+      sold: quantity + oldSold,
+    }
+  );
 };
 
 module.exports = orderCTRL;

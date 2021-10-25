@@ -7,8 +7,8 @@ function UserAPI(token) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSeller, setIsSeller] = useState(false);
   const [cart, setCart] = useState([]);
-  //   const [history, setHistory] = useState([]);
-  //   const [callback, setCallback] = useState(false);
+  const [history, setHistory] = useState([]);
+  const [callback, setCallback] = useState(false);
 
   useEffect(() => {
     if (token) {
@@ -61,6 +61,8 @@ function UserAPI(token) {
     isSeller: [isSeller, setIsSeller],
     cart: [cart, setCart],
     addCart: addCart,
+    callback: [callback, setCallback],
+    history: [history, setHistory],
   };
 }
 
