@@ -5,13 +5,13 @@ function ShopsAPI() {
   const [shops, setShops] = useState([]);
   const [callback, setCallback] = useState(false);
 
-  const getCategory = async () => {
+  const getShops = async () => {
     const res = await axios.get("/api/shops");
     setShops(res.data.shops);
   };
 
   useEffect(() => {
-    getCategory();
+    getShops();
   }, [callback]);
 
   return {

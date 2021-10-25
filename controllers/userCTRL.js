@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const Order = require("../models/orderModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -126,6 +127,42 @@ const userCTRL = {
         return res.status(400).json({ msg: "User Doesn't Exists." });
       }
       res.json({ user });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  history: async (req, res) => {
+    try {
+      const history = await Order.find({ user_id: req.user.id });
+
+      res.json({ history });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  updateUser: async (req, res) => {
+    try {
+      const { fullName, password, rePassword, images, shopName } = req.body;
+      if (!fullName || !password || !rePassword) {
+        return res.status(400).json({ msg: "Invalid Creadentials" });
+      }
+      if (password.length < 4) {
+        return res.status(400).json({ msg: "Password must be 4 lengths long" });
+      }
+      if (password !== rePassword) {
+        return res.status(400).json({ msg: "Password Doesn't Match" });
+      }
+      const hashPass = await bcrypt.hash(password, 10);
+      await User.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          fullName,
+          password: hashPass,
+          images,
+          shopName,
+        }
+      );
+      res.json({ msg: "profile updated" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

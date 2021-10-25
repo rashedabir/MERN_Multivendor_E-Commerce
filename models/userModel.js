@@ -25,6 +25,9 @@ const userSchema = mongoose.Schema(
       type: Array,
       default: [],
     },
+    images: {
+      type: Object,
+    },
     shopName: {
       type: String,
       trim: true,

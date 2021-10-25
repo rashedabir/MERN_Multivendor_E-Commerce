@@ -15,6 +15,8 @@ import EditProduct from "./screens/EditProduct";
 import SellerProductDetails from "./screens/SellerProductDetails";
 import Order from "./screens/Order";
 import History from "./screens/History";
+import HistoryDetails from "./screens/HistoryDetails";
+import Profile from "./screens/Profile";
 
 function App() {
   return (
@@ -32,6 +34,12 @@ function App() {
             <Route exact path="/login" component={Login} />
             <Route exact path="/order" component={Order} />
             <Route exact path="/history" component={History} />
+            <Route exact path="/profile" component={Profile} />
+            <Route
+              exact
+              path="/history_details/:id"
+              component={HistoryDetails}
+            />
             <Route exact path="/register" component={Registration} />
             <Route exact path="/product_detail/:id" component={ProductDetail} />
             <Route

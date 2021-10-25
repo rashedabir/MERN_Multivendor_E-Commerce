@@ -24,6 +24,7 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import CategoryIcon from "@material-ui/icons/Category";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import ListAltIcon from "@material-ui/icons/ListAlt";
+import HistoryIcon from "@material-ui/icons/History";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -131,7 +132,9 @@ function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose} component={Link} to="/profile">
+        Profile
+      </MenuItem>
       <MenuItem onClick={logOut}>Logout</MenuItem>
     </Menu>
   );
@@ -153,6 +156,14 @@ function Header() {
         </IconButton>
         <p>Shop</p>
       </MenuItem>
+      {isLogged ? (
+        <MenuItem component={Link} to="/history">
+          <IconButton aria-label="show 4 new mails" color="inherit">
+            <HistoryIcon />
+          </IconButton>
+          <p>{isSeller ? "Order" : "History"}</p>
+        </MenuItem>
+      ) : null}
       {isAdmin ? (
         <MenuItem component={Link} to="/categories">
           <IconButton aria-label="show 4 new mails" color="inherit">
@@ -236,6 +247,11 @@ function Header() {
             {isAdmin ? (
               <Button component={Link} to="/categories" size="medium">
                 categories
+              </Button>
+            ) : null}
+            {isLogged ? (
+              <Button component={Link} to="/history" size="medium">
+                {isSeller ? "orders" : "history"}
               </Button>
             ) : null}
             {isSeller ? (

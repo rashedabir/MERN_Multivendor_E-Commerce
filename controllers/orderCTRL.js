@@ -5,7 +5,12 @@ const Product = require("../models/productModel");
 const orderCTRL = {
   getOrders: async (req, res) => {
     try {
-      const orders = await Order.find({ "cart.user": req.user.id });
+      const orders = await Order.find(
+        { cart: { $elemMatch: { user: req.user.id } } },
+        { "cart.$": 1 }
+      ).select(
+        "fullName userName address district phone bkash trxid createdAt"
+      );
       res.json({
         status: "success",
         result: orders.length,

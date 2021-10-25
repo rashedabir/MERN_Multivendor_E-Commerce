@@ -9,6 +9,7 @@ function UserAPI(token) {
   const [cart, setCart] = useState([]);
   const [history, setHistory] = useState([]);
   const [callback, setCallback] = useState(false);
+  const [user, setUser] = useState([]);
 
   useEffect(() => {
     if (token) {
@@ -23,13 +24,14 @@ function UserAPI(token) {
           res.data.user.role === "seller"
             ? setIsSeller(true)
             : setIsSeller(false);
+          setUser(res.data.user);
         } catch (error) {
           toast.error(error.response.data.msg);
         }
       };
       getUser();
     }
-  }, [token]);
+  }, [token, callback]);
 
   const addCart = async (product) => {
     if (!isLogged) {
@@ -55,6 +57,25 @@ function UserAPI(token) {
     }
   };
 
+  useEffect(() => {
+    if (token) {
+      const getHistory = async () => {
+        if (isSeller) {
+          const res = await axios.get("/api/order", {
+            headers: { Authorization: token },
+          });
+          setHistory(res.data.sellerOrders);
+        } else {
+          const res = await axios.get("/user/history", {
+            headers: { Authorization: token },
+          });
+          setHistory(res.data.history);
+        }
+      };
+      getHistory();
+    }
+  }, [token, callback, isSeller, setHistory]);
+
   return {
     isLogged: [isLogged, setIsLogged],
     isAdmin: [isAdmin, setIsAdmin],
@@ -63,6 +84,7 @@ function UserAPI(token) {
     addCart: addCart,
     callback: [callback, setCallback],
     history: [history, setHistory],
+    user: [user, setUser],
   };
 }
 

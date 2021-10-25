@@ -4,7 +4,7 @@ const authSeller = require("../middleware/authSeller");
 
 const router = require("express").Router();
 
-router.post("/upload", auth, authSeller, uploadCTRL.uploadFile);
-router.post("/destroy", auth, authSeller, uploadCTRL.deleteFile);
+router.post("/upload", auth, uploadCTRL.uploadFile);
+router.post("/destroy", auth, uploadCTRL.deleteFile);
 
 module.exports = router;

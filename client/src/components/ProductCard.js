@@ -15,7 +15,7 @@ import { GlobalState } from "../GlobalState";
 
 const useStyles = makeStyles({
   root: {
-    width: 345,
+    width: "100%",
   },
   media: {
     height: 300,

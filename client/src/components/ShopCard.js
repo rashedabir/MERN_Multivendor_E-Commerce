@@ -2,6 +2,7 @@ import {
   Card,
   CardActionArea,
   CardContent,
+  CardMedia,
   makeStyles,
   Typography,
 } from "@material-ui/core";
@@ -11,7 +12,7 @@ import Avatar from "react-avatar";
 
 const useStyles = makeStyles({
   root: {
-    width: 345,
+    width: "100%",
   },
   media: {
     height: 300,
@@ -26,13 +27,14 @@ const useStyles = makeStyles({
 
 function ShopCard({ shop }) {
   const classes = useStyles();
+
   return (
     <Card className={classes.root}>
       <CardActionArea component={Link} to={`/shop_detail/${shop._id}`}>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Shop.svg/1200px-Shop.svg.png"
-          alt=""
+        <CardMedia
           className={classes.media}
+          image={shop.images && shop.images.url}
+          title="Contemplative Reptile"
         />
         <CardContent>
           <div style={{ display: "flex", alignItems: "center" }}>
