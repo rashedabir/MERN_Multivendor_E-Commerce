@@ -62,6 +62,7 @@ function SellerProducts() {
   const [callback, setCallback] = state.productsAPI.callback;
   const [products] = state.sellerProducts.sellerProducts;
   const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
 
   const deleteProduct = async (id, public_id) => {
     try {
@@ -74,9 +75,12 @@ function SellerProducts() {
             headers: { Authorization: token },
           }
         );
-        const deleteProduct = axios.delete(`/api/product/${id}`, {
-          headers: { Authorization: token },
-        });
+        const deleteProduct = axios.delete(
+          `https://shop-clue.herokuapp.com/api/product/${id}`,
+          {
+            headers: { Authorization: token },
+          }
+        );
         await deleteImg;
         await deleteProduct;
         setCallback(!callback);
@@ -92,6 +96,13 @@ function SellerProducts() {
     return <h6>Loading...</h6>;
   }
 
+  const handleSearch = products.filter((product) => {
+    return (
+      product.product_id.toLowerCase().includes(search.toLowerCase()) ||
+      product.title.toLowerCase().includes(search.toLowerCase())
+    );
+  });
+
   return (
     <div className={classes.root}>
       <Container maxWidth="lg">
@@ -99,7 +110,11 @@ function SellerProducts() {
           id="outlined-basic"
           variant="outlined"
           className={classes.inputFeild}
-          placeholder="Search"
+          placeholder="Search Product"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
         />
         <TableContainer component={Paper} style={{ margin: "30px 0" }}>
           <Table className={classes.table} aria-label="customized table">
@@ -113,46 +128,51 @@ function SellerProducts() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {products?.map((product, index) => (
-                <StyledTableRow key={index}>
-                  <StyledTableCell component="th" scope="row">
-                    {product.product_id}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="left"
-                    component={Link}
-                    to={`/seller_product_detail/${product._id}`}
-                  >
-                    {product.title}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    <img
-                      src={product.images.url}
-                      width="50px"
-                      alt={product.title}
-                    />
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    $ {product.price}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    <IconButton
-                      component={Link}
-                      to={`/edit_product/${product._id}`}
-                    >
-                      <EditIcon />
-                    </IconButton>{" "}
-                    <IconButton
-                      color="secondary"
-                      onClick={() => {
-                        deleteProduct(product._id, product.images.public_id);
-                      }}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
+              {handleSearch.length
+                ? handleSearch.map((product, index) => (
+                    <StyledTableRow key={index}>
+                      <StyledTableCell component="th" scope="row">
+                        {product.product_id}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="left"
+                        component={Link}
+                        to={`/seller_product_detail/${product._id}`}
+                      >
+                        {product.title}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        <img
+                          src={product.images.url}
+                          width="50px"
+                          alt={product.title}
+                        />
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        $ {product.price}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        <IconButton
+                          component={Link}
+                          to={`/edit_product/${product._id}`}
+                        >
+                          <EditIcon />
+                        </IconButton>{" "}
+                        <IconButton
+                          color="secondary"
+                          onClick={() => {
+                            deleteProduct(
+                              product._id,
+                              product.images.public_id
+                            );
+                          }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))
+                : null}
             </TableBody>
           </Table>
         </TableContainer>

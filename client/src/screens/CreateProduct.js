@@ -258,7 +258,7 @@ function CreateProduct() {
                     {categories.map((category) => (
                       <option
                         key={category._id}
-                        value={"category=" + category.name}
+                        value={category.name}
                         style={{ textTransform: "capitalize" }}
                       >
                         {category.name}

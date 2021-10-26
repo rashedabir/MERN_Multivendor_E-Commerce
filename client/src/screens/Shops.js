@@ -1,5 +1,6 @@
 import { Container, Grid, Grow, makeStyles } from "@material-ui/core";
 import React, { useContext } from "react";
+import AddsShow from "../components/AddsShow";
 import ShopCard from "../components/ShopCard";
 import { GlobalState } from "../GlobalState";
 
@@ -18,6 +19,7 @@ function Shops() {
   return (
     <div className={classes.root}>
       <Container maxWidth="lg">
+        <AddsShow />
         <Grow in>
           <Grid container spacing={3} alignContent="stretch">
             {shops.map((shop, index) => (

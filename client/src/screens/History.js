@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 function History() {
   const classes = useStyles();
   const state = useContext(GlobalState);
+  const [isSeller] = state.userAPI.isSeller;
   const [history] = state.userAPI.history;
 
   return (
@@ -62,7 +63,7 @@ function History() {
             textAlign: "center",
           }}
         >
-          history
+          {isSeller ? "orders" : "history"}
         </Typography>
         <TableContainer component={Paper} style={{ margin: "30px 0" }}>
           <Table className={classes.table} aria-label="customized table">

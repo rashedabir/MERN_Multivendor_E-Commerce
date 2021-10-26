@@ -186,14 +186,16 @@ function Header() {
           <p>Products</p>
         </MenuItem>
       ) : null}
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={cart.length} color="secondary">
-            <ShoppingCartIcon />
-          </Badge>
-        </IconButton>
-        <p>Cart</p>
-      </MenuItem>
+      {isSeller ? null : (
+        <MenuItem>
+          <IconButton aria-label="show 4 new mails" color="inherit">
+            <Badge badgeContent={cart.length} color="secondary">
+              <ShoppingCartIcon />
+            </Badge>
+          </IconButton>
+          <p>Cart</p>
+        </MenuItem>
+      )}
       {isLogged ? (
         <MenuItem onClick={handleProfileMenuOpen}>
           <IconButton
@@ -267,16 +269,18 @@ function Header() {
                 login <AcUnitIcon style={{ margin: "0 5px" }} /> registration
               </Button>
             )}
-            <IconButton
-              aria-label="show 4 new mails"
-              color="inherit"
-              component={Link}
-              to={isLogged ? "/cart" : "/login"}
-            >
-              <Badge badgeContent={cart.length} color="secondary">
-                <ShoppingCartIcon />
-              </Badge>
-            </IconButton>
+            {isSeller ? null : (
+              <IconButton
+                aria-label="show 4 new mails"
+                color="inherit"
+                component={Link}
+                to={isLogged ? "/cart" : "/login"}
+              >
+                <Badge badgeContent={cart.length} color="secondary">
+                  <ShoppingCartIcon />
+                </Badge>
+              </IconButton>
+            )}
             {isLogged ? (
               <IconButton
                 edge="end"

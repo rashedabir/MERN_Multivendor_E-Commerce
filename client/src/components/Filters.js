@@ -12,7 +12,7 @@ import { GlobalState } from "../GlobalState";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    padding: "20px 0",
+    padding: "10px 0",
   },
   paper: {
     padding: "10px",
@@ -57,11 +57,7 @@ function Filters() {
             >
               <option aria-label="None" value="" />
               {categories.map((category) => (
-                <option
-                  key={category._id}
-                  value={"category=" + category.name}
-                  style={{ textTransform: "capitalize" }}
-                >
+                <option key={category._id} value={"category=" + category.name}>
                   {category.name}
                 </option>
               ))}

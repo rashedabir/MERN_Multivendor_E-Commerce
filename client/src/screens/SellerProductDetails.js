@@ -180,9 +180,6 @@ function SellerProductDetails() {
             >
               {details.description}
             </Typography>
-            <Button variant="contained" className={classes.customBtn}>
-              add to cart
-            </Button>
           </Grid>
         </Grid>
         <Typography

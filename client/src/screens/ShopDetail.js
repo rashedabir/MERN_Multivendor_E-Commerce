@@ -42,19 +42,22 @@ function ShopDetail() {
         <div className={classes.paper}>
           <Grow in>
             <Grid container spacing={3} alignContent="stretch">
-              {products.map((product, index) => (
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
-                  key={index}
-                  style={{ display: "flex" }}
-                >
-                  <ProductCard product={product} />
-                </Grid>
-              ))}
+              {products
+                .slice(0)
+                .reverse()
+                .map((product, index) => (
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    key={index}
+                    style={{ display: "flex" }}
+                  >
+                    <ProductCard product={product} />
+                  </Grid>
+                ))}
             </Grid>
           </Grow>
           {products.length === 0 && <Loading loading={loading} />}

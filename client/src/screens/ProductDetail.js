@@ -76,6 +76,7 @@ function ProductDetail() {
   const [products] = state.productsAPI.products;
   const [callback, setCallback] = state.productsAPI.callback;
   const [isLogged] = state.userAPI.isLogged;
+  const [isSeller] = state.userAPI.isSeller;
   const { id } = useParams();
   const [details, setDetails] = useState([]);
   const [image, setImage] = useState([]);
@@ -192,17 +193,19 @@ function ProductDetail() {
             >
               {details.description}
             </Typography>
-            <Button
-              variant="contained"
-              className={classes.customBtn}
-              onClick={() => {
-                addCart(details);
-              }}
-              component={Link}
-              to={isLogged ? "/cart" : "/login"}
-            >
-              add to cart
-            </Button>
+            {isSeller ? null : (
+              <Button
+                variant="contained"
+                className={classes.customBtn}
+                onClick={() => {
+                  addCart(details);
+                }}
+                component={Link}
+                to={isLogged ? "/cart" : "/login"}
+              >
+                add to cart
+              </Button>
+            )}
           </Grid>
         </Grid>
         <Typography

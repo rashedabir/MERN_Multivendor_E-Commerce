@@ -19,6 +19,7 @@
     "react-loading-skeleton": "^3.0.0",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
+    "react-slideshow-image": "^3.6.0",
     "react-toastify": "^8.0.3",
     "web-vitals": "^1.1.2"
   },

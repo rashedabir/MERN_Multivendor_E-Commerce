@@ -189,6 +189,7 @@ function Profile() {
                 label="User Name"
                 type="text"
                 variant="outlined"
+                disabled
                 className={classes.inputFeild}
                 onChange={(e) => {
                   setUserName(e.target.value);

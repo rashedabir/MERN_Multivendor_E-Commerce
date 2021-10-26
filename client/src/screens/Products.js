@@ -5,6 +5,7 @@ import { GlobalState } from "../GlobalState";
 import ProductCard from "../components/ProductCard";
 import Loading from "./Loading";
 import LoadMore from "../components/LoadMore";
+import AddsShow from "../components/AddsShow";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +27,7 @@ function Products() {
     <div className={classes.root}>
       <Container maxWidth="lg">
         <Filters />
+        <AddsShow />
         <div className={classes.paper}>
           <Grow in>
             <Grid container spacing={3} alignContent="stretch">
