@@ -50,6 +50,20 @@ const orderCTRL = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  updateOrder: async (req, res) => {
+    try {
+      const { checked } = req.body;
+
+      await Order.findOneAndUpdate(
+        { "cart._id": req.params.id },
+        { $set: { "cart.$.checked": Boolean(checked) } }
+      );
+
+      res.json({ msg: "Order Update." });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 const sold = async (id, quantity, oldSold) => {

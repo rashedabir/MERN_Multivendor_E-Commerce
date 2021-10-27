@@ -17,6 +17,10 @@ a {
   color: black;
 }
 
+ul li {
+  list-style: none;
+}
+
 .App {
   max-width: 1230px;
   min-height: 100vh;

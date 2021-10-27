@@ -1,7 +1,11 @@
 import {
+  Button,
   Container,
+  FormControl,
   makeStyles,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -11,8 +15,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
+import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { toast } from "react-toastify";
 import { GlobalState } from "../GlobalState";
 
 const StyledTableCell = withStyles((theme) => ({
@@ -68,10 +74,15 @@ const useStyles = makeStyles((theme) => ({
 function HistoryDetails() {
   const classes = useStyles();
   const state = useContext(GlobalState);
+  const [token] = state.token;
+  const [isSeller] = state.userAPI.isSeller;
   const [history] = state.userAPI.history;
   const { id } = useParams();
   const [cart, setCart] = useState([]);
   const [details, setDetails] = useState([]);
+  const [checked, setChecked] = useState();
+  const [_id, setId] = useState("");
+  const [callback, setCallback] = state.userAPI.callback;
 
   useEffect(() => {
     if (id) {
@@ -83,6 +94,25 @@ function HistoryDetails() {
       });
     }
   }, [id, history]);
+
+  const updateOrder = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(
+        `https://shop-clue.herokuapp.com/api/order/${_id}`,
+        {
+          checked: checked,
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
+      setCallback(!callback);
+      toast.success("Order Updated.");
+    } catch (err) {
+      toast.error(err.response.data.msg);
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -139,7 +169,9 @@ function HistoryDetails() {
           <Table className={classes.table} aria-label="customized table">
             <TableHead>
               <TableRow>
+                {isSeller ? <StyledTableCell2>Action</StyledTableCell2> : null}
                 <StyledTableCell2>Product ID</StyledTableCell2>
+                <StyledTableCell2>Status</StyledTableCell2>
                 <StyledTableCell2 align="left">Title</StyledTableCell2>
                 <StyledTableCell2 align="right">Image</StyledTableCell2>
                 <StyledTableCell2 align="right">Price</StyledTableCell2>
@@ -148,8 +180,29 @@ function HistoryDetails() {
             <TableBody>
               {cart?.map((product, index) => (
                 <StyledTableRow2 key={index}>
+                  {isSeller ? (
+                    <StyledTableCell2 component="th" scope="row">
+                      <FormControl>
+                        <Select
+                          displayEmpty
+                          inputProps={{ "aria-label": "Without label" }}
+                          onChange={(e) => {
+                            setChecked(e.target.value);
+                            setId(product._id);
+                          }}
+                          value={checked}
+                        >
+                          <MenuItem value={true}>Complete</MenuItem>
+                          <MenuItem value={false}>Pending</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </StyledTableCell2>
+                  ) : null}
                   <StyledTableCell2 component="th" scope="row">
                     {product.product_id}
+                  </StyledTableCell2>
+                  <StyledTableCell2 component="th" scope="row">
+                    {product.checked === false ? "Pending" : "Complete"}
                   </StyledTableCell2>
                   <StyledTableCell2 align="left">
                     {product.title}
@@ -169,6 +222,11 @@ function HistoryDetails() {
             </TableBody>
           </Table>
         </TableContainer>
+        {isSeller ? (
+          <Button variant="outlined" onClick={updateOrder}>
+            update
+          </Button>
+        ) : null}
       </Container>
     </div>
   );

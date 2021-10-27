@@ -33,7 +33,11 @@ function ShopCard({ shop }) {
       <CardActionArea component={Link} to={`/shop_detail/${shop._id}`}>
         <CardMedia
           className={classes.media}
-          image={shop.images && shop.images.url}
+          image={
+            shop.images
+              ? shop.images.url
+              : "https://cdn.pixabay.com/photo/2013/07/13/11/31/shop-158317_960_720.png"
+          }
           title="Contemplative Reptile"
         />
         <CardContent>

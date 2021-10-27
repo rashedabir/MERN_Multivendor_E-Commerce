@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { Slide } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
 import { GlobalState } from "../GlobalState";
+import Skeleton from "react-loading-skeleton";
 
 const images = [
   {
@@ -117,26 +118,52 @@ function AddsShow() {
             Top Selled
           </Typography>
           <List className={classes.list}>
-            {topSell.slice(0, 3).map((product) => (
-              <ListItem
-                component={Link}
-                to={`/product_detail/${product._id}`}
-                button
-              >
-                <ListItemAvatar>
-                  <Avatar
-                    className={classes.image}
-                    alt={product.title}
-                    src={product.images.url}
+            {topSell.length ? (
+              topSell.slice(0, 3).map((product) => (
+                <ListItem
+                  component={Link}
+                  to={`/product_detail/${product._id}`}
+                  button
+                >
+                  <ListItemAvatar>
+                    <Avatar
+                      className={classes.image}
+                      alt={product.title}
+                      src={product.images.url}
+                    />
+                  </ListItemAvatar>
+                  <ListItemText
+                    style={{ textTransform: "capitalize" }}
+                    primary={product.title}
+                    secondary={"$ " + product.price}
                   />
-                </ListItemAvatar>
-                <ListItemText
-                  style={{ textTransform: "capitalize" }}
-                  primary={product.title}
-                  secondary={"$ " + product.price}
-                />
-              </ListItem>
-            ))}
+                </ListItem>
+              ))
+            ) : (
+              <ul container spacing={3} alignContent="stretch">
+                {["1", "2", "3"].map((product, index) => (
+                  <li
+                    item
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    key={index}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <Skeleton
+                      height={110}
+                      width={100}
+                      style={{ marginRight: "10px" }}
+                    />
+                    <div>
+                      <Skeleton height={30} width={160} />
+                      <Skeleton height={20} width={80} />
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
           </List>
         </Grid>
       </Grid>
