@@ -9,7 +9,7 @@ const orderCTRL = {
         { cart: { $elemMatch: { user: req.user.id } } },
         { "cart.$": 1 }
       ).select(
-        "fullName userName address district phone bkash trxid createdAt"
+        "fullName userName address district phone bkash trxid createdAt status"
       );
       res.json({
         status: "success",
@@ -54,10 +54,7 @@ const orderCTRL = {
     try {
       const { checked } = req.body;
 
-      await Order.findOneAndUpdate(
-        { "cart._id": req.params.id },
-        { $set: { "cart.$.checked": Boolean(checked) } }
-      );
+      await Order.findOneAndUpdate({ _id: req.params.id }, { status: checked });
 
       res.json({ msg: "Order Update." });
     } catch (err) {
