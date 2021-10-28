@@ -69,6 +69,7 @@ function History() {
           <Table className={classes.table} aria-label="customized table">
             <TableHead>
               <TableRow>
+                <StyledTableCell>Status</StyledTableCell>
                 <StyledTableCell>Order ID</StyledTableCell>
                 <StyledTableCell align="left">Full Name</StyledTableCell>
                 <StyledTableCell align="left">Payment</StyledTableCell>
@@ -76,26 +77,34 @@ function History() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {history?.map((history, index) => (
-                <StyledTableRow
-                  key={index}
-                  component={Link}
-                  to={`/history_details/${history._id}`}
-                >
-                  <StyledTableCell component="th" scope="row">
-                    {history._id}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {history.fullName}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {history.trxid === "" ? "CASH ON DELIVARY" : history.trxid}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {new Date(history.createdAt).toDateString()}
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
+              {history
+                ?.slice(0)
+                .reverse()
+                .map((history, index) => (
+                  <StyledTableRow
+                    key={index}
+                    component={Link}
+                    to={`/history_details/${history._id}`}
+                  >
+                    <StyledTableCell component="th" scope="row">
+                      {history.status ? "Complete" : "pending"}
+                    </StyledTableCell>
+                    <StyledTableCell component="th" scope="row">
+                      {history._id}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      {history.fullName}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      {history.trxid === ""
+                        ? "CASH ON DELIVARY"
+                        : history.trxid}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {new Date(history.createdAt).toDateString()}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>

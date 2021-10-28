@@ -1,11 +1,9 @@
 import {
   Button,
   Container,
-  FormControl,
   makeStyles,
-  MenuItem,
   Paper,
-  Select,
+  Radio,
   Table,
   TableBody,
   TableCell,
@@ -83,6 +81,15 @@ function HistoryDetails() {
   const [checked, setChecked] = useState();
   const [_id, setId] = useState("");
   const [callback, setCallback] = state.userAPI.callback;
+  const [orders, setOrders] = useState([]);
+  const [user] = state.userAPI.user;
+
+  useEffect(() => {
+    if (isSeller) {
+      const res = cart.filter((cart) => cart.user === user._id);
+      setOrders(res);
+    }
+  }, [cart, isSeller, user._id]);
 
   useEffect(() => {
     if (id) {
@@ -90,6 +97,8 @@ function HistoryDetails() {
         if (history._id === id) {
           setDetails(history);
           setCart(history.cart);
+          setChecked(history.status);
+          setId(history._id);
         }
       });
     }
@@ -165,67 +174,116 @@ function HistoryDetails() {
         >
           ordered items
         </Typography>
-        <TableContainer component={Paper} style={{ margin: "30px 0" }}>
-          <Table className={classes.table} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                {isSeller ? <StyledTableCell2>Action</StyledTableCell2> : null}
-                <StyledTableCell2>Product ID</StyledTableCell2>
-                <StyledTableCell2>Status</StyledTableCell2>
-                <StyledTableCell2 align="left">Title</StyledTableCell2>
-                <StyledTableCell2 align="right">Image</StyledTableCell2>
-                <StyledTableCell2 align="right">Price</StyledTableCell2>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {cart?.map((product, index) => (
-                <StyledTableRow2 key={index}>
-                  {isSeller ? (
-                    <StyledTableCell2 component="th" scope="row">
-                      <FormControl>
-                        <Select
-                          displayEmpty
-                          inputProps={{ "aria-label": "Without label" }}
-                          onChange={(e) => {
-                            setChecked(e.target.value);
-                            setId(product._id);
-                          }}
-                          value={checked}
-                        >
-                          <MenuItem value={true}>Complete</MenuItem>
-                          <MenuItem value={false}>Pending</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </StyledTableCell2>
-                  ) : null}
-                  <StyledTableCell2 component="th" scope="row">
-                    {product.product_id}
-                  </StyledTableCell2>
-                  <StyledTableCell2 component="th" scope="row">
-                    {product.checked === false ? "Pending" : "Complete"}
-                  </StyledTableCell2>
-                  <StyledTableCell2 align="left">
-                    {product.title}
-                  </StyledTableCell2>
-                  <StyledTableCell2 align="right">
-                    <img
-                      src={product.images.url}
-                      width="50px"
-                      alt={product.title}
-                    />
-                  </StyledTableCell2>
-                  <StyledTableCell2 align="right">
-                    $ {product.price}
-                  </StyledTableCell2>
-                </StyledTableRow2>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
         {isSeller ? (
-          <Button variant="outlined" onClick={updateOrder}>
-            update
-          </Button>
+          <TableContainer component={Paper} style={{ margin: "30px 0" }}>
+            <Table className={classes.table} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell2>Product ID</StyledTableCell2>
+                  <StyledTableCell2 align="left">Title</StyledTableCell2>
+                  <StyledTableCell2 align="right">Image</StyledTableCell2>
+                  <StyledTableCell2 align="right">Price</StyledTableCell2>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {orders?.map((product, index) => (
+                  <StyledTableRow2 key={index}>
+                    <StyledTableCell2 component="th" scope="row">
+                      {product.product_id}
+                    </StyledTableCell2>
+                    <StyledTableCell2 align="left">
+                      {product.title}
+                    </StyledTableCell2>
+                    <StyledTableCell2 align="right">
+                      <img
+                        src={product.images.url}
+                        width="50px"
+                        alt={product.title}
+                      />
+                    </StyledTableCell2>
+                    <StyledTableCell2 align="right">
+                      $ {product.price}
+                    </StyledTableCell2>
+                  </StyledTableRow2>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <TableContainer component={Paper} style={{ margin: "30px 0" }}>
+            <Table className={classes.table} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell2>Product ID</StyledTableCell2>
+                  <StyledTableCell2 align="left">Title</StyledTableCell2>
+                  <StyledTableCell2 align="right">Image</StyledTableCell2>
+                  <StyledTableCell2 align="right">Price</StyledTableCell2>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {cart?.map((product, index) => (
+                  <StyledTableRow2 key={index}>
+                    <StyledTableCell2 component="th" scope="row">
+                      {product.product_id}
+                    </StyledTableCell2>
+                    <StyledTableCell2 align="left">
+                      {product.title}
+                    </StyledTableCell2>
+                    <StyledTableCell2 align="right">
+                      <img
+                        src={product.images.url}
+                        width="50px"
+                        alt={product.title}
+                      />
+                    </StyledTableCell2>
+                    <StyledTableCell2 align="right">
+                      $ {product.price}
+                    </StyledTableCell2>
+                  </StyledTableRow2>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+        {isSeller ? (
+          <div>
+            <div className="form-check-inline">
+              <label>Status: </label>
+              <div>
+                <Radio
+                  color="primary"
+                  value={checked}
+                  checked={checked === true}
+                  onChange={() => {
+                    setChecked(true);
+                  }}
+                />
+                <label className="form-check-label" for="inlineRadio1">
+                  Complete
+                </label>
+              </div>
+              <div className="form-check form-check-inline">
+                <Radio
+                  value={checked}
+                  checked={checked === false}
+                  onChange={() => {
+                    setChecked(false);
+                  }}
+                />
+                <label className="form-check-label" for="inlineRadio2">
+                  Pending
+                </label>
+              </div>
+            </div>
+            <Button
+              variant="contained"
+              onClick={updateOrder}
+              style={{ margin: "10px 0px" }}
+              color={checked ? "primary" : "secondary"}
+            >
+              update
+            </Button>
+          </div>
         ) : null}
       </Container>
     </div>
